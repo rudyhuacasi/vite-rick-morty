@@ -1,5 +1,27 @@
 <script>
+import listCard from './components/listCard.vue';
+import { store } from './store';
+import axios from 'axios';
+export default {
+    name: `Component`,
+    data() {
+        return {
+            store,
+        };
+    },
+    components: {
+        listCard,
+    },
+    created() {
+        axios.get(this.store.apiUrl).then((response) => {
+            this.store.data = response.data.data;
+            this.store.meta = response.data.meta;
 
+            //  console.log(response.data);
+            //  console.log(this.store.results);
+        });
+    }
+}
 </script>
 <template>
     <header class="container text-center">
@@ -16,5 +38,6 @@
             <button type="button" class=" m-2 btn btn-warning">Reset</button>
         </div>
     </header>
+    <listCard />
 </template>
 <style></style>

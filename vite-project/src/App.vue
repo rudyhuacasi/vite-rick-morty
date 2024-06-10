@@ -11,7 +11,22 @@ export default {
             results: []
         }
     },
+    created() {
+        this.fetchRandomCharacters();
+    },
     methods: {
+        async fetchRandomCharacters() {
+            try {
+                const response = await axios.get('https://rickandmortyapi.com/api/character', {
+                    params: {
+                        page: Math.floor(Math.random() * 34) + 1, // Hay 34 páginas en la API, seleccionamos una al azar
+                    },
+                });
+                this.results = response.data.results;
+            } catch (error) {
+                this.results = [];
+            }
+        },
         async search() {
             try {
                 const response = await axios.get('https://rickandmortyapi.com/api/character', {
@@ -21,7 +36,6 @@ export default {
                     }
                 });
                 this.results = response.data.results;
-                console.log(response.data.results);
             } catch (error) {
                 this.results = [];
             }
